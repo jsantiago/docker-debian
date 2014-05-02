@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -e
+
+clean() {
+    vagrant ssh -c "/vagrant/dockerw cleanup"
+}
+
+build() {
+    vagrant ssh -c "/vagrant/dockerw build"
+}
+
+run() {
+    vagrant ssh -c "/vagrant/dockerw run"
+}
+
+status() {
+    vagrant status
+}
+
+start() {
+    vagrant up
+}
+
+restart() {
+    vagrant reload
+}
+
+stop() {
+    vagrant halt
+}
+
+destroy() {
+    vagrant destroy
+}
+
+usage() {
+    echo "Usage: $0 [ clean | build | run | status | start | restart | stop | destroy ]"
+}
+
+if [[ $# == 0 ]]; then
+    usage
+    exit 1
+fi
+
+while [[ -n "$1" ]]; do
+    case $1 in
+        clean ) clean
+            ;;
+        build ) build
+            ;;
+        run ) run
+            ;;
+        status ) status
+            ;;
+        start ) start
+            ;;
+        restart ) restart
+            ;;
+        stop ) stop
+            ;;
+        destroy ) destroy
+            ;;
+        * ) usage
+            exit 1
+            ;;
+    esac
+    shift
+done
